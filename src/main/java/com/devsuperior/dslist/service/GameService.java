@@ -24,4 +24,9 @@ public class GameService {
     public GameDTO findById(Long id){
         return gameRepository.findById(id).map(gameEntity-> new GameDTO(gameEntity)).orElseThrow(()->new RuntimeException("Game Não existe na Base"));
     }
+
+    @Transactional(readOnly = true)
+    public List<GameMinDTO> findByList(Long listId){
+        return gameRepository.searchByList(listId).stream().map(projection->new GameMinDTO(projection)).toList();
+    }
 }
